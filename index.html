@@ -14,21 +14,34 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+        }
+        input, button {
+            display: block;
+            margin: 5px auto;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
-    <h2>Login to Blump Brothers</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
-<button onclick="signUp()">Sign Up</button>
-<button onclick="logIn()">Log In</button>
-<button onclick="logOut()">Log Out</button>
-<p id="status"></p>
 
-<!-- Include auth.js -->
-<script type="module" src="auth.js"></script>
+    <div class="container">
+        <h2>Login to Blump Brothers</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="signUp()">Sign Up</button>
+        <button onclick="logIn()">Log In</button>
+        <button onclick="logOut()">Log Out</button>
+        <p id="status"></p>
+    </div>
 
     <h1>hi hypno:D</h1>
+
+    <!-- Get in there GRRR -->
+    <script type="module" src="auth.js"></script>
+
 </body>
 </html>
