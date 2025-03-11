@@ -16,6 +16,8 @@
             margin: 0;
             text-align: center;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
         h1 {
@@ -59,25 +61,63 @@
             border-radius: 50%;
         }
     </style>
+    <!-- Confetti Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </head>
 <body>
 
     <h1>Welcome to Blump Brothers!</h1>
-    <h2 class="crazy">Pink</h2>
+    <h2 class="crazy">pink</h2>
 
+    <div class="image-container">
+        <img src="https://www.example.com/your-funny-image.jpg" alt="Blump Brothers mascot">
+    </div>
 
     <!-- Audio Element -->
     <audio id="fun-sound" src="https://files.catbox.moe/dxa9hg.mp3" preload="auto"></audio>
 
     <!-- Buttons -->
-    <button class="button" onclick="playSound()">Click Me for Fun!</button>
-    <button class="button" onclick="alert('I am the popup.')">Click Me for Popup</button>
+    <button class="button" onclick="playFun()">Click Me for Fun!</button>
+    <button class="button" onclick="alert('WARNING: PMO')">click for pmo</button>
 
     <script>
-        // Function to play the sound effect
-        function playSound() {
+        // Function to play the sound effect and trigger confetti
+        function playFun() {
+            // Play the sound
             const sound = document.getElementById("fun-sound");
-            sound.play();  // Play the sound when the button is clicked
+            sound.play();  
+
+            // Trigger confetti
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+
+            // Trigger confetti multiple times
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
         }
     </script>
 
