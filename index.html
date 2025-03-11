@@ -8,40 +8,92 @@
         body {
             background-color: black;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
-            flex-direction: column;
+            margin: 0;
+            padding: 0;
         }
+
+        /* Profile box */
+        .profile-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
         .container {
             text-align: center;
-        }
-        input, button {
-            display: block;
-            margin: 5px auto;
-            padding: 10px;
+            margin-top: 20%;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Login to Blump Brothers</h2>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="signUp()">Sign Up</button>
-        <button onclick="logIn()">Log In</button>
-        <button onclick="logOut()">Log Out</button>
-        <p id="status"></p>
+    <!-- Profile Box (Top Right) -->
+    <div class="profile-box" onclick="redirectToLogin()">
+        <img id="profile-pic" src="default-avatar.png" alt="Profile Picture" style="display: none;">
+        <span id="username">Log in?</span>
     </div>
 
-    <h1>hi hypno:D</h1>
+    <div class="container">
+        <h1>hi hypno:D</h1>
+    </div>
 
-    <!-- Get in there GRRR -->
-    <script type="module" src="auth.js"></script>
+    <!-- Include Firebase Auth -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCs05hfhZKdxi5leZDrIlxQWznAs5eLgkQ",
+            authDomain: "blumpbros-406c8.firebaseapp.com",
+            projectId: "blumpbros-406c8",
+            storageBucket: "blumpbros-406c8.firebasestorage.app",
+            messagingSenderId: "173169183530",
+            appId: "1:173169183530:web:1d0207a90c1a0b8c14ec53",
+            measurementId: "G-HYV7HJ11EJ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById("profile-pic").style.display = "block";
+                document.getElementById("username").innerText = user.displayName || "User";
+                document.getElementById("profile-pic").src = user.photoURL || "default-avatar.png";
+                document.querySelector(".profile-box").onclick = logOut;
+            } else {
+                document.getElementById("profile-pic").style.display = "none";
+                document.getElementById("username").innerText = "Log in?";
+                document.querySelector(".profile-box").onclick = redirectToLogin;
+            }
+        });
+
+        // Redirect to login page
+        function redirectToLogin() {
+            window.location.href = "login.html"; // Change to your actual login page
+        }
+
+        // Log out function
+        function logOut() {
+            signOut(auth).then(() => {
+                location.reload();
+            });
+        }
+    </script>
 
 </body>
 </html>
