@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Blump Brothers</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            display: block;
+            width: 200px;
+            margin: 10px auto;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: white;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: gray;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login to Blump Brothers</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="signUp()">Sign Up</button>
+        <button onclick="logIn()">Log In</button>
+        <button onclick="logOut()">Log Out</button>
+        <p id="error-message"></p>
+    </div>
+
+    <!-- Firebase Authentication -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCs05hfhZKdxi5leZDrIlxQWznAs5eLgkQ",
+            authDomain: "blumpbros-406c8.firebaseapp.com",
+            projectId: "blumpbros-406c8",
+            storageBucket: "blumpbros-406c8.firebasestorage.app",
+            messagingSenderId: "173169183530",
+            appId: "1:173169183530:web:1d0207a90c1a0b8c14ec53",
+            measurementId: "G-HYV7HJ11EJ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = "index.html"; // Redirect to main page
+            }
+        });
+
+        function signUp() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    window.location.href = "index.html"; // Redirect to main page
+                })
+                .catch((error) => {
+                    document.getElementById("error-message").innerText = error.message;
+                });
+        }
+
+        function logIn() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    window.location.href = "index.html"; // Redirect to main page
+                })
+                .catch((error) => {
+                    document.getElementById("error-message").innerText = error.message;
+                });
+        }
+
+        function logOut() {
+            signOut(auth).then(() => {
+                document.getElementById("error-message").innerText = "Logged out!";
+            });
+        }
+    </script>
+
+</body>
+</html>
