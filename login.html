@@ -51,6 +51,10 @@
             color: red;
             margin-top: 10px;
         }
+
+        #logout-button {
+            display: none; /* Hide logout button by default */
+        }
     </style>
 </head>
 <body>
@@ -59,9 +63,9 @@
         <h2>Login to Blump Brothers</h2>
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button onclick="signUp()">Sign Up</button>
-        <button onclick="logIn()">Log In</button>
-        <button onclick="logOut()">Log Out</button>
+        <button id="signup-button" onclick="signUp()">Sign Up</button>
+        <button id="login-button" onclick="logIn()">Log In</button>
+        <button id="logout-button" onclick="logOut()">Log Out</button>
         <p id="error-message"></p>
     </div>
 
@@ -85,10 +89,17 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Check if user is already logged in
+        // Check authentication state
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = "index.html"; // Redirect to main page
+                document.getElementById("logout-button").style.display = "block"; // Show log out button
+                document.getElementById("signup-button").style.display = "none"; // Hide sign up
+                document.getElementById("login-button").style.display = "none"; // Hide log in
+                document.getElementById("error-message").innerText = "Logged in as: " + user.email;
+            } else {
+                document.getElementById("logout-button").style.display = "none"; // Hide log out button
+                document.getElementById("signup-button").style.display = "block"; // Show sign up
+                document.getElementById("login-button").style.display = "block"; // Show log in
             }
         });
 
@@ -121,6 +132,7 @@
         function logOut() {
             signOut(auth).then(() => {
                 document.getElementById("error-message").innerText = "Logged out!";
+                window.location.reload(); // Refresh page after logout
             });
         }
     </script>
