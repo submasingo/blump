@@ -7,7 +7,23 @@
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getAuth } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyCs05hfhZKdxi5leZDrIlxQWznAs5eLgkQ",
+        authDomain: "blumpbros-406c8.firebaseapp.com",
+        projectId: "blumpbros-406c8",
+        storageBucket: "blumpbros-406c8.firebasestorage.app",
+        messagingSenderId: "173169183530",
+        appId: "1:173169183530:web:1d0207a90c1a0b8c14ec53",
+        measurementId: "G-HYV7HJ11EJ"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 </script>
+
     <style>
         body {
             background-color: black;
@@ -75,71 +91,69 @@
 
     <!-- Firebase Authentication -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCs05hfhZKdxi5leZDrIlxQWznAs5eLgkQ",
-            authDomain: "blumpbros-406c8.firebaseapp.com",
-            projectId: "blumpbros-406c8",
-            storageBucket: "blumpbros-406c8.firebasestorage.app",
-            messagingSenderId: "173169183530",
-            appId: "1:173169183530:web:1d0207a90c1a0b8c14ec53",
-            measurementId: "G-HYV7HJ11EJ"
-        };
+    // Get Firebase Auth instance
+    const auth = getAuth();
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Check authentication state
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById("logout-button").style.display = "block"; // Show log out button
-                document.getElementById("signup-button").style.display = "none"; // Hide sign up
-                document.getElementById("login-button").style.display = "none"; // Hide log in
-                document.getElementById("error-message").innerText = "Logged in as: " + user.email;
-            } else {
-                document.getElementById("logout-button").style.display = "none"; // Hide log out button
-                document.getElementById("signup-button").style.display = "block"; // Show sign up
-                document.getElementById("login-button").style.display = "block"; // Show log in
-            }
-        });
-
-        function signUp() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    window.location.href = "index.html"; // Redirect to main page
-                })
-                .catch((error) => {
-                    document.getElementById("error-message").innerText = error.message;
-                });
+    // Check authentication state
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById("logout-button").style.display = "block"; 
+            document.getElementById("signup-button").style.display = "none";  
+            document.getElementById("login-button").style.display = "none";   
+            document.getElementById("error-message").innerText = "Logged in as: " + user.email;
+        } else {
+            document.getElementById("logout-button").style.display = "none";  
+            document.getElementById("signup-button").style.display = "block"; 
+            document.getElementById("login-button").style.display = "block";  
         }
+    });
 
-        function logIn() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+    // Sign up function
+    function signUp() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    window.location.href = "index.html"; // Redirect to main page
-                })
-                .catch((error) => {
-                    document.getElementById("error-message").innerText = error.message;
-                });
-        }
-
-        function logOut() {
-            signOut(auth).then(() => {
-                document.getElementById("error-message").innerText = "Logged out!";
-                window.location.reload(); // Refresh page after logout
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                document.getElementById("error-message").innerText = "Account created!";
+                window.location.href = "index.html";  
+            })
+            .catch((error) => {
+                document.getElementById("error-message").innerText = error.message;
             });
-        }
-    </script>
+    }
+
+    // Log in function
+    function logIn() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                document.getElementById("error-message").innerText = "Logged in!";
+                window.location.href = "index.html";  
+            })
+            .catch((error) => {
+                document.getElementById("error-message").innerText = error.message;
+            });
+    }
+
+    // Log out function
+    function logOut() {
+        signOut(auth).then(() => {
+            document.getElementById("error-message").innerText = "Logged out!";
+            window.location.reload();
+        });
+    }
+
+    // Attach functions to buttons
+    document.getElementById("signup-button").addEventListener("click", signUp);
+    document.getElementById("login-button").addEventListener("click", logIn);
+    document.getElementById("logout-button").addEventListener("click", logOut);
+</script>
+
 
 </body>
 </html>
