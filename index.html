@@ -63,14 +63,23 @@
 <body>
 
     <h1>Welcome to Blump Brothers!</h1>
-    <h2 class="crazy">Where fun is the only product!</h2>
+    <h2 class="crazy">Pink</h2>
 
-    <div class="image-container">
-        <img src="https://www.example.com/your-funny-image.jpg" alt="Blump Brothers mascot">
-    </div>
 
-    <button class="button" onclick="alert('Woohoo! You clicked the button!')">Click Me for Fun!</button>
-    <button class="button" onclick="alert('What is this madness?')">Why are you here?!</button>
+    <!-- Audio Element -->
+    <audio id="fun-sound" src="https://files.catbox.moe/dxa9hg.mp3" preload="auto"></audio>
+
+    <!-- Buttons -->
+    <button class="button" onclick="playSound()">Click Me for Fun!</button>
+    <button class="button" onclick="alert('I am the popup.')">Click Me for Popup</button>
+
+    <script>
+        // Function to play the sound effect
+        function playSound() {
+            const sound = document.getElementById("fun-sound");
+            sound.play();  // Play the sound when the button is clicked
+        }
+    </script>
 
 </body>
 </html>
